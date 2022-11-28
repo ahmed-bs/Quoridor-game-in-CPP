@@ -1,39 +1,33 @@
 #include<stdio.h>
-#include <graphics.h>
-// to make table 
-int make_tab(int tab[][9]){
-		int i,j;
-		for (i=0;i<9;i++){
-			for (j=0;j<9;j++){
-				tab[i][j]=0;
-			}
-		}
-}
-int affiche_table(int tab[][9]){
-	int i,j;
-	printf("  ");
-	for (j=0;j<9;j++){
-			printf(" %d",j+1);
-		}
-	for (i=0;i<9;i++){
-		printf("\n %d|",i+1);
-		for (j=0;j<9;j++){
-			if(tab[i][j]==0){
-				printf(" |");
-			}else{
-				printf("%d|",tab[i][j]);
-			}	
-		}
-		printf("\n");
-		
-	}
-}
-int main(){
-	int board[9][9];
 
-	make_tab(board);
-		board[0][0]=2;
-		board[0][5]=2;
-		board[7][5]=2;
-	affiche_table(board);
+int main(){
+
+int board[9][9];
+int i,j;
+printf("  ");
+for (i=0;i<9;i++){
+        printf("%d ",i+1);
+}
+ printf("\n");
+     printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",201,205,203,205,203,205,203,205,203,205,203,205,203,205,203,205,203,205,187);
+for (i=0;i<9;i++){
+if(i>0){
+     printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",204,205,206,205,206,205,206,205,206,205,206,205,206,205,206,205,206,205,185);
+}
+     printf("%d%c",i+1,186);
+    for (j=0;j<9;j++){
+            board[i][j]=0;
+        printf("%c%c",2,186);
+    }
+    printf("\n");
+}
+    printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",200,205,202,205,202,205,202,205,202,205,202,205,202,205,202,205,202,205,188);
+
+printf("  ");
+for (i=0;i<9;i++){
+        printf("%d ",i+1);
+}
+
+
+
 }
