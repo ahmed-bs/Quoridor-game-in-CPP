@@ -7,7 +7,7 @@ int i,j;
  for (i=0;i<9;i++){
        for (j=0;j<9;j++){
           tab[i][j]=0;
-    }
+        }
     }
 }
 
@@ -17,19 +17,50 @@ AffichePawn(int tab[9][9],int i,int j){
     if(tab[i][j]==0){
         printf("%c%c",176,186);
     }else if(tab[i][j]==1){
-        printf(" %c",186);
+        printf("%c%c",1,186);
     }else if(tab[i][j]==2){
-        printf(" %c",186);
+        printf("%c%c",2,186);
     }
 }
+
+
+
+//this function is to fill the table with ascci caracter that will make the border rows of the main table
+
+InitBorderRows(int tab2[19][19]){
+    int i,j;
+    for (i=0;i<19;i++){
+        for (j=0;j<19;j++){
+            if(i==0 && j==0){
+                tab2[i][j] = 201;
+            }else if(i==0 && j==18){
+                tab2[i][j] = 187;
+            }else if(i==0 && j%2==0){
+                tab2[i][j] = 203;
+            }else if(i==0 && j%2==1){
+                tab2[i][j] = 205;
+            }else if(j==0){
+                tab2[i][j] = 204;
+            }else if(j==18){
+                tab2[i][j] = 185;
+            }else if(j%2==0){
+                tab2[i][j]=206;
+            }else{tab2[i][j]=205;
+            }
+        }
+    }
+}
+
+
 
 //this function is to print the skullet of the table
 AfficheBoard(int tab[9][9]){
 //var  function
-int i,j;
+int i,j,k;
 //initial place of the pawns
 
-
+int borderRows[19][19];
+InitBorderRows(borderRows);
 //this print is to make space for the indexation so it will align with table rows
 printf("  ");
 //this for is to make the indexation of the top row
@@ -38,16 +69,13 @@ printf("  ");
     }
 //this print to return to line
 printf("\n");
-//this print is to make the head of the table with the code ascci
-printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",201,205,203,205,203,205,203,205,203,205,203,205,203,205,203,205,203,205,187);
-
 
 //this for is to print the table border + the contenu of the table
     for (i=0;i<9;i++){
         //this if is to avoid printig an additional row
-        if(i>0){
-               printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",204,205,206,205,206,205,206,205,206,205,206,205,206,205,206,205,206,205,185);
-        }
+      printf(" ");
+      for(k=0;k<19;k++){ printf("%c",borderRows[i][k]);}
+       printf("\n");
         //this print is to print the right side indexation
         printf("%d%c",i+1,186);
             //this boucle is made to display the inside of the table
@@ -74,7 +102,14 @@ printf(" %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n",201,205,203,205,203,205,203,2
 
 int main(){
 int board[9][9];
-
+int borderRows[19][19];
 InitBoard(board);
+int i,j;
+board[0][4]=1;
+board[8][4]=2;
 AfficheBoard(board);
+
+
+
+
 }
