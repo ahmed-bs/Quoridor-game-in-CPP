@@ -168,25 +168,31 @@ p1->id=1;
 p1->col =1;
 p1->row =9;
 p1->bars_numbers=10;
-p1->turn=0;
+p1->turn=1;
 //init player 2
 p2->id=2;
 p2->col =17;
 p2->row =9;
 p2->bars_numbers=10;
-p2->turn=1;
+p2->turn=0;
 
 //init places of pawns in the board
 tab[p1->col][p1->row]=p1->id;
 tab[p2->col][p2->row]=p2->id;
 }
 
-
-
+int MovePownOrBars(){
+int choice=-1;
+while(choice>2 || choice<0){
+    printf("\n to move a pawn press 1 ,to move bars press 2 \n");
+    scanf("%d",&choice);
+}
+return choice;
+}
 
 
 //this function is to move pawns
-MovePawns(int tab[19][19],player *p1,player *p2){
+MovePawns(int tab[19][19],player *p1,player *p2,int *choice){
 int key;
 //khbit() is a predefini function
 if (kbhit()) {
@@ -195,6 +201,59 @@ if (kbhit()) {
         do {
             key=getch();
         } while(key==224);
+        //the asci code of the up arrow is 72 ,this if to move the pawn up             //printf("up");
+        //the case should be different to 4   ([i-1][j] is the case that above the [i][j]
+        if(key==72 && tab[p1->col-1][p1->row]!=4){
+            //this to return the case to 0 so it will show nothing
+            tab[p1->col][p1->row]=0;
+            //this to make the case that above where we re now recieve 1
+            tab[p1->col-2][p1->row]=p1->id;
+            //this to update the player cordonate
+            p1->col=p1->col-2;
+            //this is to mark the end of the turn of the current player
+            p1->turn=0;
+            p2->turn=1;
+
+        }else if(key==75 && tab[p1->col][p1->row-1]!=4){
+            tab[p1->col][p1->row]=0;
+            tab[p1->col][p1->row-2]=p1->id;
+            p1->row=p1->row-2;
+            p1->turn=0;
+            p2->turn=1;
+            //printf("left");
+        }else if(key==77 && tab[p1->col][p1->row+1]!=4){
+            tab[p1->col][p1->row]=0;
+            tab[p1->col][p1->row+2]=p1->id;
+            p1->row=p1->row+2;
+            p1->turn=0;
+            p2->turn=1;
+            //printf("right");
+        }else if(key==80 && tab[p1->col+1][p1->row]!=4){
+            tab[p1->col][p1->row]=0;
+            tab[p1->col+2][p1->row]=p1->id;
+            p1->col=p1->col+2;
+            p1->turn=0;
+            p2->turn=1;
+            //printf("down");
+        }else printf("\n can t move pawn to a blocked path");
+      }
+    }
+    *choice=0;
+}
+
+
+
+//this function is to move bars
+MoveBars(int tab[19][19],player *p1,player *p2){
+int key;
+//khbit() is a predefini function
+if (kbhit()) {
+    key=getch();
+    if (key == 224) {
+        do {
+            key=getch();
+        } while(key==224);
+
 
         //the asci code of the up arrow is 72 ,this if to move the pawn up             //printf("up");
         //the case should be different to 4   ([i-1][j] is the case that above the [i][j]
@@ -230,15 +289,10 @@ if (kbhit()) {
             p1->turn=0;
             p2->turn=1;
             //printf("down");
-        }else printf("can t move pawn to a blockked path");
+        }else printf(" \n can t move pawn to a blockked path");
       }
     }
-system("clear");
-
 }
-
-
-
 
 
 int main(){
@@ -246,32 +300,38 @@ int main(){
 int board[19][19];
 player player1;
 player player2;
+int choice;
 //testing
 int m=1;
-int i2=17,k2=9;
-int i=1,k=9;
-//tab[1][9]=p1.id;
-//tab[17][9]=p2.id;
 //initiating the board with the 0,3 and 4
 InitBoard(board);
 //initiating the player and their places in the board
 InitializePlayer(board,&player1,&player2);
+        printf("\n player 1 turn || %d bars p1:%d  p2:%d \n",player1.bars_numbers,player1.turn,player2.turn);
+        AfficheBoard(board);
 
-AfficheBoard(board);
-     printf("\n player 1 turn|| %d bars",player1.bars_numbers);
        while (1) {
 //this khbit() is a predefinit function
-        if (kbhit()) {
+            if(choice==0){
+               choice=MovePownOrBars();
+            }else if (kbhit()) {
 //this if to switch turns between the players
             if(player1.turn==1){
+                    if(choice==1){
+                        system("clear");
+                        printf("\n player 2 turn|| %d bars p1:%d  p2:%d \n",player1.bars_numbers,player1.turn,player2.turn);
+                        MovePawns(board,&player1,&player2,&choice);
+                        AfficheBoard(board);
+                    }else printf("still under construction");
 
-                MovePawns(board,&player1,&player2);
-                AfficheBoard(board);
-     printf("\n player 1 turn|| %d bars",player1.bars_numbers);
-            }else if(player2.turn==1){
-                MovePawns(board,&player2,&player1);
-                AfficheBoard(board);
-     printf("\n player 2 turn|| %d bars",player2.bars_numbers);
+            }else if(player2.turn==1 && player1.turn==0){
+                    if(choice==1){
+                        system("clear");
+                        printf("\n player 1 turn || %d bars p1:%d  p2:%d \n",player1.bars_numbers,player1.turn,player2.turn);
+                        MovePawns(board,&player2,&player1,&choice);
+                        AfficheBoard(board);
+
+                    }else printf("still under construction");
             }
 
         }
